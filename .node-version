@@ -1,0 +1,9 @@
+# Cloudflare Pages — Next.js static export
+# https://developers.cloudflare.com/pages/configuration/build-configuration/
+
+build:
+  command: npm run build
+  publish: out
+
+# Node version for build environment
+# Set NEXT_PUBLIC_SITE_URL in Pages dashboard → Settings → Environment variables

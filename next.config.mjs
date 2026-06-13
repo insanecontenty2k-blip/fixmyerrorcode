@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "export",
   // Avoid stale chunk errors during dev after large data changes
   webpack: (config, { dev }) => {
     if (dev) {
