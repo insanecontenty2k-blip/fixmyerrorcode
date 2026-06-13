@@ -9,8 +9,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        accent: "#2563eb",
+        page: "#f8f9fa",
+      },
+      boxShadow: {
+        card: "0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04)",
+      },
+      borderRadius: {
+        card: "8px",
+      },
+      maxWidth: {
+        content: "860px",
       },
     },
   },

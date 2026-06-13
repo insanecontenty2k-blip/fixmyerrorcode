@@ -5,7 +5,20 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "seed": "node scripts/seed-error-codes.mjs",
+    "generate": "node scripts/generate-all-error-codes.mjs",
+    "generate:ai": "node scripts/generate-with-anthropic.mjs --all",
+    "index": "node scripts/build-search-index.mjs",
+    "patch:content": "node scripts/apply-unique-content.mjs",
+    "patch:meta": "node scripts/patch-short-meta.mjs",
+    "keywords:gap": "node scripts/parse-keyword-gaps.mjs",
+    "clean": "node -e \"require('fs').rmSync('.next',{recursive:true,force:true})\"",
+    "refresh": "node scripts/apply-unique-content.mjs && npm run clean && npm run build",
+    "dev:clean": "npm run clean && next dev",
+    "prebuild": "node scripts/build-search-index.mjs",
     "start": "next start",
+    "kill:3000": "node scripts/kill-port.mjs 3000",
+    "start:clean": "node scripts/kill-port.mjs 3000 && next start",
     "lint": "next lint"
   },
   "dependencies": {

@@ -1,101 +1,111 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+import Link from "next/link";
+import { BrandCard } from "@/components/BrandCard";
+import { DifficultyBadge, TimeBadge } from "@/components/DifficultyBadge";
+import { SearchBar } from "@/components/SearchBar";
+import { SectionHeading } from "@/components/SectionHeading";
+import { TrustBlocks } from "@/components/TrustBlocks";
+import { getBrandColor } from "@/lib/brand-colors";
+import {
+  getApplianceName,
+  getBrandCodeCounts,
+  getBrandName,
+  getBrandsWithData,
+  getMostSearchedGlobal,
+} from "@/lib/data";
+import { buildPageMetadata } from "@/lib/seo";
+import { errorCodeUrl } from "@/lib/urls";
 
-export default function Home() {
+export const metadata: Metadata = buildPageMetadata({
+  title: "Find Any Appliance Error Code & Fix It Step-by-Step",
+  description:
+    "Search washer, dishwasher, fridge and dryer error codes by brand. Get causes, quick checks, and repair steps before calling a technician.",
+  path: "/",
+});
+
+export default function HomePage() {
+  const brandCounts = getBrandCodeCounts();
+  const brandsWithData = getBrandsWithData();
+  const mostSearched = getMostSearchedGlobal();
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="space-y-16">
+      <section>
+        <h1 className="mb-4 text-3xl font-semibold leading-tight tracking-tight text-gray-900 sm:text-4xl">
+          Find Any Appliance Error Code &amp; Fix It Step-by-Step
+        </h1>
+        <p className="mb-6 max-w-2xl text-base leading-relaxed text-gray-600">
+          Search washer, dishwasher, fridge and dryer error codes by brand. Get
+          causes, quick checks, and repair steps before calling a technician.
+        </p>
+        <SearchBar variant="hero" />
+        <TrustBlocks />
+      </section>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      <section aria-labelledby="brands-heading">
+        <SectionHeading id="brands-heading">Browse by brand</SectionHeading>
+        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {brandsWithData.map((brand) => (
+            <li key={brand.slug}>
+              <BrandCard
+                slug={brand.slug}
+                name={brand.name}
+                codeCount={brandCounts[brand.slug] ?? 0}
+              />
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {mostSearched.length > 0 && (
+        <section aria-labelledby="popular-heading">
+          <SectionHeading id="popular-heading">
+            Most searched error codes
+          </SectionHeading>
+          <ul className="overflow-hidden rounded-lg bg-white shadow-card">
+            {mostSearched.map((entry) => {
+              const dotColor = getBrandColor(entry.brand);
+              return (
+                <li
+                  key={`${entry.brand}-${entry.appliance}-${entry.error_code}`}
+                  className="border-t border-gray-100 first:border-t-0"
+                >
+                  <Link
+                    href={errorCodeUrl(
+                      entry.brand,
+                      entry.appliance,
+                      entry.error_code
+                    )}
+                    className="group flex flex-col gap-3 px-5 py-4 no-underline transition-colors hover:bg-gray-50/80 sm:flex-row sm:items-center"
+                  >
+                    <span
+                      className="hidden h-2 w-2 shrink-0 rounded-full sm:mt-0 sm:block"
+                      style={{ backgroundColor: dotColor }}
+                      aria-hidden="true"
+                    />
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-medium text-gray-900">
+                        {getBrandName(entry.brand)}{" "}
+                        {entry.error_code.toUpperCase()} — {entry.summary}
+                      </span>
+                      <span className="mt-1 block text-sm text-gray-500">
+                        {getApplianceName(entry.appliance)}
+                      </span>
+                    </span>
+                    <span className="flex shrink-0 items-center gap-3 sm:gap-4">
+                      <DifficultyBadge difficulty={entry.difficulty} />
+                      <TimeBadge time={entry.estimated_time} />
+                      <span className="hidden text-sm font-medium text-accent group-hover:underline sm:inline">
+                        View fix →
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      )}
     </div>
   );
 }
