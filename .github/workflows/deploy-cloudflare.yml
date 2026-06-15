@@ -22,7 +22,7 @@ jobs:
       - run: npm ci
       - run: npm run build
         env:
-          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://fixmyerrorcode.pages.dev' }}
+          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://fixmyerrorcode.com' }}
 
       - uses: cloudflare/wrangler-action@v3
         with:

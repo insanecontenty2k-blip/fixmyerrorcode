@@ -30,9 +30,17 @@ let appended = 0;
 
 const merged = existing.map((entry) => {
   const p = patchMap.get(key(entry));
-  if (p) {
+    if (p) {
     replaced++;
-    return { ...entry, ...p, error_code: entry.error_code };
+    return {
+      ...entry,
+      ...p,
+      error_code: entry.error_code,
+      deep_dive: p.deep_dive ?? entry.deep_dive,
+      prevention_tips: p.prevention_tips ?? entry.prevention_tips,
+      part_cost_estimate: p.part_cost_estimate ?? entry.part_cost_estimate,
+      priority_rewrite: p.priority_rewrite ?? entry.priority_rewrite,
+    };
   }
   return entry;
 });

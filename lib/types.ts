@@ -13,6 +13,14 @@ export interface ErrorCodeEntry {
   related_codes: string[];
   difficulty: "easy" | "medium" | "hard";
   estimated_time: string;
+  /** Extra technical paragraphs (300+ word target) */
+  deep_dive?: string[];
+  /** Owner prevention / maintenance tips */
+  prevention_tips?: string[];
+  /** Typical OEM part cost range when replacement is needed */
+  part_cost_estimate?: string;
+  /** Skip generic enrich-depth pass — hand-researched page */
+  priority_rewrite?: boolean;
 }
 
 export interface BrandInfo {

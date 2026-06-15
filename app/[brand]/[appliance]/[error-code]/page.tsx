@@ -127,6 +127,19 @@ export default function ErrorCodePage({ params }: ErrorCodePageProps) {
           <p className="leading-relaxed text-gray-700">{entry.meaning}</p>
         </ContentCard>
 
+        {entry.deep_dive && entry.deep_dive.length > 0 && (
+          <ContentCard className="p-6">
+            <SectionHeading id="deep-dive-heading">
+              How {entry.error_code.toUpperCase()} is detected
+            </SectionHeading>
+            <div className="space-y-4 leading-relaxed text-gray-700">
+              {entry.deep_dive.map((paragraph) => (
+                <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+              ))}
+            </div>
+          </ContentCard>
+        )}
+
         <ContentCard className="p-6">
           <SectionHeading id="causes-heading">Common causes</SectionHeading>
           <ul className="space-y-2 text-gray-700">
@@ -176,9 +189,36 @@ export default function ErrorCodePage({ params }: ErrorCodePageProps) {
           </ContentCard>
         )}
 
+        {entry.prevention_tips && entry.prevention_tips.length > 0 && (
+          <ContentCard className="p-6">
+            <SectionHeading id="prevention-heading">
+              Prevention &amp; maintenance
+            </SectionHeading>
+            <ul className="space-y-2 text-gray-700">
+              {entry.prevention_tips.map((tip) => (
+                <li key={tip} className="flex gap-3">
+                  <span
+                    className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+                    aria-hidden="true"
+                  />
+                  <span className="leading-relaxed">{tip}</span>
+                </li>
+              ))}
+            </ul>
+          </ContentCard>
+        )}
+
         <ContentCard className="flex flex-wrap items-center gap-4 p-4">
           <DifficultyBadge difficulty={entry.difficulty} />
           <TimeBadge time={entry.estimated_time} />
+          {entry.part_cost_estimate && (
+            <span className="text-sm text-gray-600">
+              Typical parts:{" "}
+              <span className="font-medium text-gray-900">
+                {entry.part_cost_estimate}
+              </span>
+            </span>
+          )}
         </ContentCard>
 
         {related.length > 0 && (
